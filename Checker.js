@@ -42,7 +42,7 @@ var Checker = function () {
     function check(link) {
         return new Promise(function (resolve, reject) {
             getSession().then(function (cookies) {
-                [0, 1, 2, 3, 4, 5, 6, 7].forEach(function (index) {
+                [...Array(8).keys()].forEach(function (index) {
                     var weeklink = link.replace(/week\=0/g, `week=${index}`);
                     getSchedule(cookies, weeklink).then(function (body) {
                         // fs.writeFile(`./week${index}.html`, body, function () {
