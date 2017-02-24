@@ -17,7 +17,7 @@ var Checker = function () {
 
     this.run = function () {
         return new Promise(function (resolve, reject) {
-            fs.readdir(os.tmpdir() + path.sep + 'doc92', (err, files) => {
+            fs.readdir(inbox, (err, files) => {
                 if (err) {
                     reject(err);
                 } else {

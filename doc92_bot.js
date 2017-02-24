@@ -45,7 +45,7 @@ cfg.getProps()
         });
 
         bot.onText(/\/stop/g, function (msg) {
-            fs.unlink(os.tmpdir() + path.sep + 'doc92' + path.sep + `${msg.from.id}`, function (err) {
+            fs.unlink(inbox + path.sep + `${msg.from.id}`, function (err) {
                 if (err) {
                     bot.sendMessage(msg.chat.id, 'Вероятно, вы уже отменили проверку расписания ранее');
                 } else {
@@ -83,10 +83,10 @@ cfg.getProps()
             checker.run()
                 .then(function (data) {
                     bot.sendMessage(data.file, "Талоны доступны! Попробуйте получить талон по ссылке: " + data.link);
-                    fs.unlink(os.tmpdir() + path.sep + 'doc92' + path.sep + data.file);
+                    fs.unlink(inbox + path.sep + data.file);
                 })
-                .catch(function () {
-                    console.log('no!');
+                .catch(function (err) {
+                    console.log(err);
                 });
         }, 5 * 60 * 1000);
     })
