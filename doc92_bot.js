@@ -8,10 +8,13 @@ var cfg = require('./ConfigReader');
 
 cfg.getProps()
     .then(function (props) {
-        var inbox = os.tmpdir() + path.sep + 'doc92' + path.sep + 'inbox';
-        var feedbacks = os.tmpdir() + path.sep + 'doc92' + path.sep + 'feedbacks';
-        fs.mkdir(inbox, function () { });
-        fs.mkdir(feedbacks, function () { });
+        var botfolder = os.tmpdir() + path.sep + 'doc92';
+        var inbox = botfolder + path.sep + 'inbox';
+        var feedbacks = botfolder + path.sep + 'feedbacks';
+        fs.mkdir(botfolder, function () {
+            fs.mkdir(inbox, function () { });
+            fs.mkdir(feedbacks, function () { });
+        });
 
         var bot = new TelegramBot(props.token.toString(), { polling: true });
         var checker = new Checker();
