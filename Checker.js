@@ -13,6 +13,7 @@ var Checker = function () {
         .catch(function (err) {
             console.log(err);
         });
+    var inbox = os.tmpdir() + path.sep + 'doc92' + path.sep + 'inbox';
 
     this.run = function () {
         return new Promise(function (resolve, reject) {
@@ -21,7 +22,7 @@ var Checker = function () {
                     reject(err);
                 } else {
                     files.forEach(file => {
-                        fs.readFile(os.tmpdir() + path.sep + 'doc92' + path.sep + file, (err, data) => {
+                        fs.readFile(inbox + path.sep + file, (err, data) => {
                             check(data.toString())
                                 .then(function (weeklink) {
                                     resolve({
