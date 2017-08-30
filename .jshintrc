@@ -2,5 +2,15 @@
     "esversion": 6,
     "node": true,
     "unused": true,
-    "undef": true
+    "undef": true,
+    "mocha": true,
+    "evil": true,
+    "eqeqeq": true,
+    "trailing": true,
+    "maxlen": 120,
+    "newcap": true,
+    "curly": true,
+    "multistr": true,
+    "loopfunc": true,
+    "noempty": true
 }
