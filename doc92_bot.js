@@ -104,7 +104,8 @@ cfg.getProps()
                 .catch(function (err) {
                     console.log(err);
                 });
-        }, 5 * 60 * 1000);
+        // }, 5 * 60 * 1000);
+        }, 1 * 5 * 1000); // dev
     })
     .catch(function (err) {
         console.log(err);

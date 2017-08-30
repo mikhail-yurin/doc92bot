@@ -1,16 +1,17 @@
 {
-  "name": "doc92bot",
-  "version": "1.0.0",
-  "main": "index.js",
-  "dependencies": {
-    "node-telegram-bot-api": "^0.26.0",
-    "request": "^2.79.0"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "test"
-  },
-  "author": "Michael Yurin",
-  "license": "ISC",
-  "description": "doc92bot project"
+    "name": "doc92bot",
+    "version": "1.0.0",
+    "main": "index.js",
+    "dependencies": {
+        "node-telegram-bot-api": "^0.26.0",
+        "request": "^2.79.0"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "dev": "nodemon doc92_bot.js",
+        "prod": "node doc92_bot.js"
+    },
+    "author": "Michael Yurin",
+    "license": "ISC",
+    "description": "doc92bot project"
 }
