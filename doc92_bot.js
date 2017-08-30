@@ -8,9 +8,9 @@ var cfg = require('./ConfigReader');
 
 cfg.getProps()
     .then(function (props) {
-        var botfolder = os.tmpdir() + path.sep + 'doc92';
-        var inbox = botfolder + path.sep + 'inbox';
-        var feedbacks = botfolder + path.sep + 'feedbacks';
+        var botfolder = path.resolve(os.tmpdir(), 'doc92');
+        var inbox = path.resolve(botfolder, 'inbox');
+        var feedbacks = path.resolve(botfolder, 'feedbacks');
         fs.mkdir(botfolder, function () {
             fs.mkdir(inbox, function () { });
             fs.mkdir(feedbacks, function () { });
@@ -39,7 +39,7 @@ cfg.getProps()
         bot.onText(/\/help/g, function (msg) {
             bot.sendMessage(
                 msg.chat.id,
-                 '1. В своем браузере откройте ссылку с выбором специалиста и времени посещения.\
+                '1. В своем браузере откройте ссылку с выбором специалиста и времени посещения.\
                  \n2. Скопируйте адрес ссылки и пришлите её мне.\
                  \n\nЯ буду периодически проверять наличие талонов на прием (на два месяца вперед) и в случае появления, сообщу вам об их наличии.\
                  \n\n(в данный момент бот может проверять только одно расписание для каждого пользователя. Если расписание для вас уже проверяется, а вы пришлете ссылку на новое расписание, старое расписание более не будет проверяться на наличие талонов)\
@@ -49,9 +49,10 @@ cfg.getProps()
         bot.onText(/\/about/g, function (msg) {
             bot.sendMessage(
                 msg.chat.id,
-                 'Бот не сохраняет никаких ваших личных данных.\
+                'Бот не сохраняет никаких ваших личных данных.\
                  \nИсходный код доступен на https://github.com/mikhail-yurin/doc92bot.\
-                 \nПредложение по улучшению работы бота вы можете оставить тут https://github.com/mikhail-yurin/doc92bot/issues/new\
+                 \nПредложение по улучшению работы бота вы можете оставить тут:\
+                 \nhttps://github.com/mikhail-yurin/doc92bot/issues/new\
                  \nили используйте команду /feedback');
         });
 
@@ -71,9 +72,9 @@ cfg.getProps()
         });
 
         bot.on('message', function (msg) {
-            if (commands.indexOf(msg.text) === -1 && !feedmsg) {
+            if (!commands.includes(msg.text) && !feedmsg) {
                 if (/https\:\/\/doctor\-92\.ru\/record\/\?/g.test(msg.text)) {
-                    fs.writeFile(inbox + path.sep + `${msg.from.id}`, msg.text, (err) => {
+                    fs.writeFile(path.resolve(inbox, `${msg.from.id}`), msg.text, (err) => {
                         if (err) {
                             bot.sendMessage(msg.chat.id, "Упс... Возникла ошибка(");
                             console.log(err);
@@ -82,7 +83,11 @@ cfg.getProps()
                         }
                     });
                 } else {
-                    bot.sendMessage(msg.chat.id, "Пришлите пожалуйста ссылку на страницу с расписанием и я буду периодически проверять его!\nКак только появятся талоны на прием, я вам сообщу");
+                    bot.sendMessage(
+                        msg.chat.id,
+                        `Пришлите пожалуйста ссылку на страницу с расписанием и я буду периодически проверять его!\
+                        \nКак только появятся талоны на прием, я вам сообщу`
+                    );
                 }
             } else if (feedmsg) {
                 fs.writeFile(feedbacks + path.sep + 'feedback_' + new Date().getTime() + '.txt', msg.text, (err) => {
@@ -104,8 +109,8 @@ cfg.getProps()
                 .catch(function (err) {
                     console.log(err);
                 });
-        // }, 5 * 60 * 1000);
-        }, 1 * 5 * 1000); // dev
+        }, 5 * 60 * 1000);
+        // }, 1 * 5 * 1000); // dev
     })
     .catch(function (err) {
         console.log(err);

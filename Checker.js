@@ -16,7 +16,6 @@ var Checker = function () {
     var inbox = path.resolve(os.tmpdir(), 'doc92', 'inbox');
 
     this.run = function () {
-        console.debug(inbox);
         return new Promise(function (resolve, reject) {
             fs.readdir(inbox, (err, files) => {
                 if (err) {
@@ -24,8 +23,6 @@ var Checker = function () {
                 } else {
                     files.forEach(file => {
                         fs.readFile(inbox + path.sep + file, (err, data) => {
-                            console.debug('data:');
-                            console.debug(data);
                             check(data.toString())
                                 .then(function (weeklink) {
                                     resolve({
@@ -34,7 +31,7 @@ var Checker = function () {
                                     });
                                 })
                                 .catch(function () {
-                                    reject();
+                                    reject('no tickets were found');
                                 });
                         });
                     });
@@ -85,7 +82,6 @@ var Checker = function () {
     function getSchedule(cookies, link) {
         return new Promise(function (resolve, reject) {
             var weeklink = link.replace(/cardfileid\=[\da-z\-]+/g, 'cardfileid=' + this.props.cardfileid);
-            console.debug('link: ' + weeklink);
             request.get({
                 url: weeklink,
                 jar: true,
